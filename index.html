@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karsa Kultura</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            coral: '#000000',
+                            navy: '#1c2d42',
+                            brown: '#823b1c'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans min-h-screen flex flex-col transition-colors duration-300">
+
+    <div id="readingProgressContainer" class="fixed top-0 left-0 w-full h-1 z-50 bg-transparent hidden">
+        <div id="readingProgressBar" class="h-full bg-gradient-to-r from-brand-coral via-rose-500 to-amber-500 w-0 transition-all duration-75"></div>
+    </div>
+
+    <div class="bg-zinc-900 text-zinc-300 text-[11px] py-1.5 px-4 font-mono border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-coral opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-coral"></span>
+                </span>
+                <span class="uppercase tracking-widest text-[10px] text-zinc-400 font-bold"></span>
+            </div>
+            <div class="hidden sm:flex items-center space-x-4 text-[10px]">
+                
+                <span></span>
+                <span class="text-brand-coral font-bold uppercase"></span>
+            </div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Left Editorial Nav Links -->
+                <nav class="hidden md:flex items-center space-x-6 text-xs font-extrabold uppercase tracking-widest">
+                    <button onclick="navigateTo('home')" class="hover:text-brand-coral transition-colors relative py-1 group">
+                        BERANDA
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-coral group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                    <button onclick="filterByCategory('Palka Budaya')" class="hover:text-brand-coral transition-colors relative py-1 group">
+                        PALKA BUDAYA
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-coral group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                    <button onclick="filterByCategory('Baca Karya')" class="hover:text-brand-coral transition-colors relative py-1 group">
+                        BACA KARYA
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-coral group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                </nav>
+
+                <!-- Center Karsa Kultura Logo -->
+                <div class="flex items-center cursor-pointer my-auto group" onclick="navigateTo('home')" aria-label="Karsa Kultura Logo">
+                    <div class="flex items-center space-x-1 sm:space-x-1.5 select-none transition-transform group-hover:scale-105 duration-200">
+                        <span class="font-serif text-2xl sm:text-3xl font-semibold lowercase tracking-tight text-[#1c2d42] dark:text-zinc-100">
+                            karsa
+                        </span>
+                        <span class="h-6 sm:h-7 w-[2px] bg-[#1c2d42] dark:bg-zinc-400 mx-1 sm:mx-1.5 inline-block opacity-85"></span>
+                        <span class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-[#823b1c] dark:text-[#ff7a5a]">
+                            Kultura
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right Nav & Tools -->
+                <div class="flex items-center space-x-4 sm:space-x-6">
+                    <nav class="hidden lg:flex items-center space-x-6 text-xs font-extrabold uppercase tracking-widest">
+                        <button onclick="filterByCategory('kudapan sastra')" class="hover:text-brand-coral transition-colors relative py-1 group">
+                            KUDAPAN SASTRA
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-coral group-hover:w-full transition-all duration-300"></span>
+                        </button>
+                        <button onclick="filterByCategory('Essai')" class="hover:text-brand-coral transition-colors relative py-1 group">
+                            ESSAI
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-coral group-hover:w-full transition-all duration-300"></span>
+                        </button>
+                    </nav>
+
+                    <div class="flex items-center space-x-2 border-l border-zinc-200 dark:border-zinc-800 pl-4">
+                        <button onclick="toggleSearchModal()" aria-label="Cari Artikel" class="p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-all">
+                            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                        </button>
+
+                        <button onclick="navigateTo('bookmarks')" aria-label="Artikel Tersimpan" class="p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-all relative">
+                            <i class="fa-regular fa-bookmark text-sm"></i>
+                            <span id="bookmarkBadge" class="hidden absolute top-1 right-1 bg-brand-coral text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold ring-2 ring-white dark:ring-zinc-950">0</span>
+                        </button>
+
+                        <button id="themeToggleBtn" onclick="toggleTheme()" aria-label="Ubah Mode Layar" class="p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-all">
+                            <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
+                        </button>
+
+                        <button onclick="toggleJsonModal()" title="JSON Studio" class="hidden sm:inline-flex items-center px-2.5 py-1 text-xs font-mono border border-zinc-300 dark:border-zinc-700 rounded-lg hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all shadow-sm">
+                            <i class="fa-solid fa-code text-[10px] mr-1.5 text-brand-coral"></i> 
+                        </button>
+
+                        <button onclick="toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2 text-zinc-800 dark:text-zinc-200">
+                            <i class="fa-solid fa-bars text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md px-6 py-4 space-y-3 text-xs font-bold uppercase tracking-wider">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">Beranda</button>
+            <button onclick="filterByCategory('Palka Budaya'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">Palka Budaya</button>
+            <button onclick="filterByCategory('Baca Karya'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">Baca Karya</button>
+            <button onclick="filterByCategory('Kudapan Sastra'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">Kudapan Sastra</button>
+            <button onclick="filterByCategory('Essai'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">Essai</button>
+            <button onclick="navigateTo('bookmarks'); toggleMobileMenu()" class="block w-full text-left py-1.5 hover:text-brand-coral">TERSIMPAN</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        <!-- ================= PAGE VIEW 1: HOMEPAGE ================= -->
+        <section id="viewHome" class="space-y-12">
+            
+            <!-- Category Filter Bar 
+            <div id="categoryFilterBar" class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 text-xs font-bold uppercase tracking-widest overflow-x-auto hide-scrollbar">
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <button onclick="filterByCategory('Semua')" class="cat-pill px-4 py-1.5 rounded-full text-white bg-brand-coral shadow-sm shadow-brand-coral/30" data-cat="Semua">Semua</button>
+                    <button onclick="filterByCategory('MUSIC')" class="cat-pill px-4 py-1.5 rounded-full text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all" data-cat="MUSIC">MUSIC</button>
+                    <button onclick="filterByCategory('ART')" class="cat-pill px-4 py-1.5 rounded-full text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all" data-cat="ART">ART</button>
+                    <button onclick="filterByCategory('LIFESTYLE')" class="cat-pill px-4 py-1.5 rounded-full text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all" data-cat="LIFESTYLE">LIFESTYLE</button>
+                    <button onclick="filterByCategory('CULTURE')" class="cat-pill px-4 py-1.5 rounded-full text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all" data-cat="CULTURE">CULTURE</button>
+                </div>
+                <div id="activeCategoryTag" class="text-zinc-400 font-mono text-[11px] whitespace-nowrap pl-4 hidden md:block">
+                    [ SHOWING ALL CONTENT ]
+                </div>
+            </div>-->
+
+            <!-- Hero Headline Featured Section -->
+            <div id="heroHeadlineSection" class="relative pb-10 border-b border-zinc-200 dark:border-zinc-800">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+
+            <!-- Berita Terbaru Section -->
+            <div class="space-y-8 pt-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-2 h-6 bg-brand-coral rounded-full inline-block"></span>
+                        <h2 class="text-base sm:text-lg font-black uppercase tracking-wider font-display">
+                            BERITA TERBARU
+                        </h2>
+                    </div>
+                    <span id="articleCountText" class="text-xs font-mono px-3 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-full text-zinc-600 dark:text-zinc-400"></span>
+                </div>
+
+                <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Cards populated dynamically -->
+                </div>
+
+                <div id="emptyState" class="hidden text-center py-20 px-4 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl">
+                    <i class="fa-regular fa-newspaper text-4xl text-zinc-400 mb-3"></i>
+                    <h3 class="text-base font-bold uppercase tracking-wider">Tidak ada artikel ditemukan</h3>
+                    <p class="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">Coba gunakan kata kunci lain atau pilih kategori yang tersedia.</p>
+                    <button onclick="resetFilters()" class="mt-4 px-6 py-2.5 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-md">
+                        Reset Filter
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE VIEW 2: ARTICLE DETAIL ================= -->
+        <section id="viewArticleDetail" class="hidden max-w-3xl mx-auto space-y-8">
+            <div class="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+                <button onclick="navigateTo('home')" class="inline-flex items-center text-xs font-bold uppercase tracking-widest hover:text-brand-coral transition-colors px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> KEMBALI KE BERANDA
+                </button>
+
+                <div class="flex items-center space-x-3">
+                    <button id="fontToggleBtn" onclick="toggleArticleFont()" class="px-3 py-1.5 text-xs font-mono border border-zinc-300 dark:border-zinc-700 rounded-lg hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-colors">
+                        FONT: <span id="fontTypeName" class="font-bold">SERIF</span>
+                    </button>
+                    <button id="detailBookmarkBtn" onclick="toggleCurrentBookmark()" class="p-2 border border-zinc-300 dark:border-zinc-700 rounded-lg hover:text-brand-coral transition-colors" title="Simpan Artikel">
+                        <i class="fa-regular fa-bookmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Article Metadata & Header -->
+            <header class="space-y-4">
+                <div class="flex items-center space-x-3 text-xs font-bold uppercase tracking-wider">
+                    <span id="detailCategory" class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-brand-coral font-extrabold">CATEGORY</span>
+                    <span class="text-zinc-300 dark:text-zinc-700">•</span>
+                    <span id="detailDate" class="text-zinc-500"></span>
+                    <span class="text-zinc-300 dark:text-zinc-700">•</span>
+                    <span id="detailReadingTime" class="text-zinc-500 font-mono"></span>
+                </div>
+
+                <h1 id="detailTitle" class="text-3xl sm:text-5xl font-black text-zinc-900 dark:text-white tracking-tight leading-tight font-display">
+                    Article Title
+                </h1>
+
+                <p id="detailExcerpt" class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans">
+                    Article summary or excerpt goes here.
+                </p>
+
+                <!-- Audio Reader Widget 
+                <div class="bg-gradient-to-r from-zinc-100 to-zinc-50 dark:from-zinc-900 dark:to-zinc-900/50 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-3">
+                        <button id="audioPlayBtn" onclick="toggleAudioReader()" class="w-10 h-10 rounded-full bg-brand-coral text-white flex items-center justify-center hover:scale-105 transition-transform shadow-md">
+                            <i id="audioIcon" class="fa-solid fa-play text-xs ml-0.5"></i>
+                        </button>
+                        <div>
+                            <h4 id="audioStatusText" class="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase">Dengarkan Artikel</h4>
+                            <p class="text-[10px] text-zinc-500">Fitur Audio AI Reader (Bahasa Indonesia)</p>
+                        </div>
+                    </div>
+                    <div id="audioWaveContainer" class="hidden flex items-center space-x-1 h-4 px-3">
+                        <span class="w-1 bg-brand-coral rounded-full animate-wave-1"></span>
+                        <span class="w-1 bg-brand-coral rounded-full animate-wave-2"></span>
+                        <span class="w-1 bg-brand-coral rounded-full animate-wave-3"></span>
+                    </div>
+                </div>-->
+
+                <div class="flex items-center justify-between py-4 border-y border-zinc-200 dark:border-zinc-800">
+                    <div class="flex items-center space-x-3">
+                        <img id="detailAuthorAvatar" src="" alt="Author" class="w-10 h-10 rounded-full object-cover border-2 border-brand-coral">
+                        <div>
+                            <h4 id="detailAuthorName" class="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">Author Name</h4>
+                            <p class="text-[10px] text-zinc-400 uppercase">Redaksi Karsa Kultura</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <button onclick="shareArticle('copy')" class="p-2 rounded-full border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all" title="Salin Tautan">
+                            <i class="fa-solid fa-link text-xs"></i>
+                        </button>
+                        <button onclick="shareArticle('twitter')" class="p-2 rounded-full border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all" title="Share X">
+                            <i class="fa-brands fa-x-twitter text-xs"></i>
+                        </button>
+                        <button onclick="shareArticle('whatsapp')" class="p-2 rounded-full border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all" title="Share WhatsApp">
+                            <i class="fa-brands fa-whatsapp text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <figure class="space-y-2">
+                <img id="detailImage" src="" alt="Featured Banner" class="w-full h-80 sm:h-96 object-cover rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-md">
+                <figcaption id="detailCaption" class="text-[11px] text-zinc-400 italic text-center"></figcaption>
+            </figure>
+
+            <article id="detailBody" class="article-body font-serif text-zinc-800 dark:text-zinc-200 text-base sm:text-lg leading-relaxed pt-2">
+            </article>
+
+            <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">TOPIK TERKAIT:</h4>
+                <div id="detailTagsList" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <section class="pt-10 border-t-2 border-zinc-900 dark:border-zinc-800 space-y-6">
+                <h3 class="text-base font-black uppercase tracking-wider font-display">BERITA TERKAIT</h3>
+                <div id="relatedArticlesGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-6"></div>
+            </section>
+        </section>
+
+        <!-- ================= PAGE VIEW 3: BOOKMARKS ================= -->
+        <section id="viewBookmarks" class="hidden space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-zinc-900 dark:border-zinc-800">
+                <div>
+                    <h2 class="text-xl font-black uppercase tracking-wider font-display">ARTIKEL TERSIMPAN</h2>
+                    <p class="text-xs text-zinc-500 mt-0.5">Daftar artikel yang Anda bookmark untuk dibaca nanti.</p>
+                </div>
+                <button onclick="clearAllBookmarks()" class="text-xs font-bold text-brand-coral hover:underline uppercase tracking-wider">
+                    HAPUS SEMUA
+                </button>
+            </div>
+
+            <div id="bookmarksGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-8"></div>
+
+            <div id="emptyBookmarks" class="hidden text-center py-16 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl">
+                <i class="fa-regular fa-bookmark text-4xl text-zinc-400 mb-3"></i>
+                <h3 class="text-sm font-bold uppercase tracking-wider">Belum ada artikel tersimpan</h3>
+                <p class="text-xs text-zinc-500 mt-1">Klik ikon bookmark pada artikel mana saja untuk menyimpannya di sini.</p>
+                <button onclick="navigateTo('semua')" class="mt-4 px-6 py-2.5 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-xs font-bold uppercase tracking-widest rounded-full shadow-md">
+                    JELAJAHI BERITA
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal 1: Search -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-20 px-4 hidden">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-2xl border border-black dark:border-gray-800 shadow-2xl overflow-hidden rounded-2xl">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center space-x-3">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                <input id="searchInput" type="text" oninput="handleSearchInput()" placeholder="Cari berdasarkan judul, atau topik berita..." class="w-full bg-transparent border-none outline-none text-sm text-gray-900 dark:text-white placeholder-gray-400 font-sans">
+                <button onclick="toggleSearchModal()" class="text-xs font-mono border border-gray-300 dark:border-gray-700 px-2 py-1 rounded">
+                    ESC
+                </button>
+            </div>
+            <div id="searchResults" class="max-h-96 overflow-y-auto p-4 space-y-3">
+                <p class="text-xs text-gray-400 text-center py-6">Ketikkan kata kunci untuk mencari...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Dev JSON Studio -->
+    <div id="jsonModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-2xl border border-black dark:border-gray-800 shadow-2xl max-h-[90vh] flex flex-col rounded-2xl">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-code text-brand-coral mr-2"></i> Schema JSON Studio
+                    </h3>
+                    <p class="text-[11px] text-gray-400">...</p>
+                </div>
+                <button onclick="toggleJsonModal()" class="text-gray-400 hover:text-black dark:hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-4 overflow-y-auto flex-grow text-xs">
+                <div>
+                    <label class="block font-bold uppercase mb-1">Judul Artikel</label>
+                    <input id="jsonFormTitle" type="text" placeholder="Contoh: Pameran Seni Kontemporer Masbagik" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 outline-none rounded-lg">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold uppercase mb-1">Kategori</label>
+                        <select id="jsonFormCategory" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 outline-none rounded-lg">
+                            <option>Palka Budaya </option>
+                            <option>Baca Karya</option>
+                            <option>Kudapan Sastra</option>
+                            <option>Essai</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold uppercase mb-1">Penulis</label>
+                        <input id="jsonFormAuthor" type="text" value="Redaksi Karsa Kultura" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 outline-none rounded-lg">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold uppercase mb-1">Tags</label>
+                    <input id="jsonFormTags" type="text" placeholder="Musik, Lokal, Seni" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 outline-none rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block font-bold uppercase mb-1">Ringkasan</label>
+                    <textarea id="jsonFormExcerpt" rows="2" placeholder="Ringkasan singkat berita..." class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 outline-none rounded-lg"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold uppercase mb-1">Isi Artikel</label>
+                    <textarea id="jsonFormContent" rows="4" placeholder="<p>Isi berita lengkap...</p>" class="w-full border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-2 font-mono outline-none rounded-lg"></textarea>
+                </div>
+
+                <button onclick="generateJsonSchema()" class="w-full py-2 bg-black text-white dark:bg-white dark:text-black font-bold uppercase tracking-wider rounded-lg">
+                    Hasilkan Objek JSON
+                </button>
+
+                <div id="jsonOutputContainer" class="hidden space-y-2 pt-2">
+                    <div class="flex items-center justify-between">
+                        <label class="block font-bold text-emerald-600">Hasil JSON Schema (Siap Copy):</label>
+                        <button onclick="copyGeneratedJson()" class="text-xs font-bold underline">
+                            Salin JSON
+                        </button>
+                    </div>
+                    <pre id="jsonOutput" class="bg-gray-950 text-emerald-400 p-4 font-mono text-[11px] overflow-x-auto max-h-40 border border-gray-800 rounded-lg"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-black text-white dark:bg-white dark:text-black px-5 py-3 border border-gray-800 shadow-2xl flex items-center space-x-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none text-xs font-bold uppercase tracking-wider rounded-xl">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-brand-coral"></i>
+        <span id="toastMessage">Notification Message</span>
+    </div>
+
+    <footer class="mt-20 bg-black text-white dark:bg-white dark:text-black py-12 text-center transition-colors">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <h3 class="text-base sm:text-lg font-black uppercase tracking-widest font-display">
+                KARSA KULTURA
+            </h3>
+            <p class="text-[11px] text-gray-400 tracking-wider">
+                © 2026 
+            </p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>

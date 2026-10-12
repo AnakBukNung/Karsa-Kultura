@@ -1,0 +1,10 @@
+/* STREAMING_CHUNK:Styling Article Body typography and animations... */
+.article-body p {margin-bottom: 1.5rem;line-height: 1.8;}
+.article-body h2 {font-size: 1.65rem;font-weight: 800;margin-top: 2rem;margin-bottom: 1rem;color: inherit;}
+.article-body blockquote {border-left: 3px solid #ff3b30;padding-left: 1.25rem;font-style: italic;margin: 1.5rem 0;opacity: 0.95;}
+.dark .article-body blockquote {border-left-color: #ff3b30;}
+.hide-scrollbar::-webkit-scrollbar {display: none;}
+.hide-scrollbar {-ms-overflow-style: none;scrollbar-width: none;}/* Audio Wave Pulse Animation */@keyframes pulse-wave {0%, 100% { height: 4px; }50% { height: 16px; }}
+.animate-wave-1 { animation: pulse-wave 0.8s ease-in-out infinite; }
+.animate-wave-2 { animation: pulse-wave 0.8s ease-in-out 0.2s infinite; }
+.animate-wave-3 { animation: pulse-wave 0.8s ease-in-out 0.4s infinite; }
